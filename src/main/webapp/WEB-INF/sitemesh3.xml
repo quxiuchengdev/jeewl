@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh >
+	<mapping path="/a/*" decorator="/WEB-INF/views/decorators/blank.jsp"/>  
+	
+	<!-- 排除的页面 -->
+	<mapping path="/a/login" exclue="true" />
+</sitemesh>
