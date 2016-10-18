@@ -34,7 +34,7 @@ public abstract class CrudService<Dao extends CrudDao<T>, T extends DataEntity<T
 	 * @Description 
 	 * @author 曲修成
 	 * @date 2016年7月1日 下午8:24:58
-	 * @param paginator
+	 * @param page
 	 * @param entity
 	 * @return
 	 */

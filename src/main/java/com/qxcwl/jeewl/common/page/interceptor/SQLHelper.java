@@ -106,7 +106,7 @@ public class SQLHelper {
 		if("oracle".equals(dbName)){
 			countSql = "select count(1) from (" + sql + ") tmp_count";
 		}else{
-			countSql = "select count(1) from (" + removeOrders(sql) + ") tmp_count";
+			countSql = "select count(1) from (" + removeOrders(sql) + " GROUP BY a.id ) tmp_count";
 //	        countSql = "select count(1) " + removeSelect(removeOrders(sql));
 		}
         Connection conn = connection;

@@ -2,6 +2,8 @@ package com.qxcwl.jeewl.modules.sys.entity;
 
 import com.qxcwl.jeewl.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 角色
  *
@@ -32,6 +34,11 @@ public class Role extends DataEntity<Role> {
 	 * 是否启用
 	 */
 	private String useable;
+
+	/**
+	 * 菜单集合
+	 */
+	private List<Menu> menuList;
 
 
 	/**
@@ -104,6 +111,22 @@ public class Role extends DataEntity<Role> {
 	 */
 	public void setUseable(String useable) {
 		this.useable = useable;
+	}
+
+	/**
+	 * 获取 菜单集合
+	 * @return menuList 菜单集合
+	 */
+	public List<Menu> getMenuList() {
+		return menuList;
+	}
+
+	/**
+	 * 设置 菜单集合
+	 * @param menuList 菜单集合
+	 */
+	public void setMenuList(List<Menu> menuList) {
+		this.menuList = menuList;
 	}
 
 }

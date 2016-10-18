@@ -10,5 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RoleService extends CrudService<RoleDao,Role>{
 
-	
+	@Override
+	public int insert(Role role) {
+		dao.deleteRoleMenu(role);
+		dao.insertRoleMenu(role);
+		return super.insert(role);
+	}
+
+	@Override
+	public int update(Role role) {
+		dao.deleteRoleMenu(role);
+		dao.insertRoleMenu(role);
+		return super.update(role);
+	}
 }

@@ -13,11 +13,25 @@
 	
 	<body>
 		<script type="text/javascript">
+        var tree = null;
 		$(document).ready(function() {
 			$('.date-picker').datepicker({
 				autoclose: true,
 				todayHighlight: true
 			});
+
+            $(document).ready(function(){
+                refreshTree();
+                $("#submitBtn").click(function () {
+                    var ids = [], nodes = tree.getCheckedNodes(true);
+                    for(var i=0; i<nodes.length; i++) {
+                        ids.push(nodes[i].id);
+                    }
+                    alert(ids);
+                    $("#menuIds").val(ids);
+                    $("#inputForm").submit();
+                });
+            });
 		});
         //定制列选择input信息
         function retainRadioInput(radio){
@@ -30,6 +44,52 @@
                     $(this).attr("checked",false);
                 }
             });
+        }
+        function refreshTree(){
+            var roleId = $("#id").val();
+            $.post("${ctx}/sys/role/treeview",{roleId:roleId}, function(result){
+                var obj = JSON.parse(result);
+                var setting = {
+                    check: {
+                        enable: true,
+                        nocheckInherit: true,
+                        chkboxType : {
+                            "Y" : "ps",
+                            "N" : "s"
+                        }
+                    },
+                    view: {
+                        selectedMulti: false
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    },
+                    callback: {
+                        beforeClick: function (id, node) {
+                            tree.checkNode(node, !node.checked, true, true);
+                            return false;
+                        },
+                    }
+                };
+                // 用户-菜单
+                var zNodes=obj.menuList;
+
+                // 初始化树结构
+                tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);
+                // 不选择父节点
+               // tree.setting.check.chkboxType = { "Y" : "ps", "N" : "s" };
+                // 默认选择节点
+                for(var i=0; i<obj.roleMenuList.length; i++) {
+                       var node = tree.getNodeByParam("id", obj.roleMenuList[i].id);
+                    try{tree.checkNode(node, true, false);}catch(e){}
+                }
+                // 默认展开全部节点
+                tree.expandAll(true);
+
+            });
+
         }
 		</script>
 		<div class="tabbable">
@@ -49,9 +109,9 @@
 		<div class="widget-box" style="margin:0px 0px 6px 0px;">
 			<div class="widget-body">
 				<div class="widget-main">
-					<form:form id="inputForm" modelAttribute="role" action="${ctx}/sys/role/save" method="post" class="form-horizontal">
+					<form:form id="inputForm" modelAttribute="role" action="${ctx}/sys/role/save" method="post" class="form-horizontal" >
 						<!-- ID -->
-						<form:hidden path="id"/>
+						<form:hidden path="id" id="id"/>
 						<div class="hr hr-24"></div>
 						
 						<div class="form-group">
@@ -104,6 +164,17 @@
 							</span>
                             </div>
                         </div>
+
+                        <div class="form-group ">
+                            <label class="col-xs-12 col-sm-3 control-label no-padding-right">选择菜单:</label>
+                            <div class="col-xs-12 col-sm-5">
+                                <input type="hidden" name="menuIds" id="menuIds">
+                                <!-- 菜单 -->
+                                <div id="menuTree" class="ztree">
+                                </div>
+                            </div>
+                            <div class="help-block col-xs-12 col-sm-reset inline"></div>
+                        </div>
 						<div class="form-group ">
 							<label class="col-xs-12 col-sm-3 control-label no-padding-right">备注:</label>
 							<div class="col-xs-12 col-sm-5">
@@ -116,7 +187,7 @@
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								
-								<button class="btn btn-info" type="submit">
+								<button class="btn btn-info" type="button" id="submitBtn" >
 									<i class="ace-icon fa fa-check bigger-110"></i>
 									提交
 								</button>
@@ -138,6 +209,5 @@
 				</div>
 			</div>
 		</div>
-		
 	</body>
 </html>

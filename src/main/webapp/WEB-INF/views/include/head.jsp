@@ -55,3 +55,4 @@
 <%-- <link rel="stylesheet" href="${ctxStatic}/zTree_v3-master/css/metroStyle/metroStyle.css" type="text/css">
  --%>
 <script type="text/javascript" src="${ctxStatic}/zTree_v3-master/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${ctxStatic}/zTree_v3-master/js/jquery.ztree.excheck.js"></script>

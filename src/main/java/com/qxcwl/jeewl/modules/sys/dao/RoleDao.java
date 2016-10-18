@@ -12,4 +12,19 @@ import com.qxcwl.jeewl.modules.sys.entity.Role;
  */
 @MyBatisDao
 public interface RoleDao extends CrudDao<Role> {
+
+	/**
+	 * 插入中间表,批量插入
+	 * @param role
+	 * @return
+	 */
+	public int insertRoleMenu(Role role);
+
+	/**
+	 * 删除中间表,批量删除
+	 * @param role
+	 * @return
+	 */
+	public int deleteRoleMenu(Role role);
+
 }
