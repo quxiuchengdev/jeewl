@@ -1,12 +1,15 @@
 package com.qxcwl.jeewl.modules.sys.web;
 
+import com.google.common.collect.Lists;
 import com.qxcwl.jeewl.common.controller.BaseController;
 import com.qxcwl.jeewl.common.page.Page;
 import com.qxcwl.jeewl.common.persistence.DataEntity;
 import com.qxcwl.jeewl.common.utils.StringUtils;
 import com.qxcwl.jeewl.modules.sys.entity.Dict;
+import com.qxcwl.jeewl.modules.sys.entity.Menu;
 import com.qxcwl.jeewl.modules.sys.entity.Role;
 import com.qxcwl.jeewl.modules.sys.entity.User;
+import com.qxcwl.jeewl.modules.sys.service.MenuService;
 import com.qxcwl.jeewl.modules.sys.service.RoleService;
 import com.qxcwl.jeewl.modules.sys.utils.DictUtils;
 import net.sf.json.JSONArray;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -31,6 +35,9 @@ public class RoleController extends BaseController{
 
 	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private MenuService menuService;
 	
 	@ModelAttribute("role")
 	public Role get(@RequestParam(required=false) String id) {
@@ -58,6 +65,16 @@ public class RoleController extends BaseController{
 	
 	@RequestMapping(value = "save")
 	public String save(Role role, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+		String menuIds = request.getParameter("menuIds");
+		if(StringUtils.isNotEmpty(menuIds)){
+			List<Menu> menuList = Lists.newArrayList();
+			String[] menuIdArr = menuIds.split(",");
+			for (String menuId : menuIdArr) {
+				Menu menu = menuService.get(menuId);
+				menuList.add(menu);
+			}
+			role.setMenuList(menuList);
+		}
 		role.setDelFlag(DataEntity.DEL_FLAG_NORMAL);
 		if(StringUtils.isEmpty(role.getId())){
 			role.setId(UUID.randomUUID().toString().replace("-", ""));
@@ -119,6 +136,40 @@ public class RoleController extends BaseController{
        // json.put("pageNo", paginator.getPage());
        // json.put("pageSize", paginator.getTotalPages());
 		return json.toString();
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "treeview")
+	public String treeview(String roleId, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Role role = roleService.get(roleId);
+		List<Menu> menuList = menuService.findList(new Menu());
+		JSONArray ja = new JSONArray();
+		for (Menu menu : menuList) {
+			JSONObject jo = new JSONObject();
+
+			jo.put("id", menu.getId());
+			jo.put("pId", menu.getParent().getId());
+			jo.put("name", menu.getName());
+
+			ja.put(jo);
+		}
+
+		JSONArray roleMenuList = new JSONArray();
+		if (role != null) {
+			for (Menu menu : role.getMenuList()) {
+				JSONObject jo = new JSONObject();
+				menu = menuService.get(menu.getId());
+				jo.put("id", menu.getId());
+				jo.put("pId", menu.getParent().getId());
+				jo.put("name", menu.getName());
+
+				roleMenuList.put(jo);
+			}
+		}
+		JSONObject result = new JSONObject();
+		result.put("menuList",ja);
+		result.put("roleMenuList",roleMenuList);
+		return result.toString();
 	}
 	
 	
