@@ -25,7 +25,7 @@ public class BaseController {
 	 */
 	protected int getPage(int start, int length) {  //整除  
 		if(length < 0){
-			return 1;
+			return -1;
 		}
 	    int n1 = Math.round(start); //四舍五入     
 	    int n2 = Math.round(length); //四舍五入    
@@ -77,13 +77,12 @@ public class BaseController {
 	 * @Description 
 	 * @author 曲修成
 	 * @date 2016年8月4日 下午8:06:57
-	 * @param start
 	 * @param length
 	 * @return
 	 */
 	protected int getLimit(int length) {  //整除  
 		if(length < 0){
-			return 10;
+			return -1;
 		}
 	    return length;  
 	}
@@ -93,7 +92,6 @@ public class BaseController {
 	 * @Description 
 	 * @author 曲修成
 	 * @date 2016年8月4日 下午8:07:34
-	 * @param startStr
 	 * @param lengthStr
 	 * @return
 	 */

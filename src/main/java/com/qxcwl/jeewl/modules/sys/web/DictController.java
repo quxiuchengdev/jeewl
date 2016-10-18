@@ -1,10 +1,12 @@
 package com.qxcwl.jeewl.modules.sys.web;
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qxcwl.jeewl.modules.sys.entity.User;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +69,22 @@ public class DictController extends BaseController{
 		if(StringUtils.isEmpty(dict.getId())){
 			dict.setDelFlag(DataEntity.DEL_FLAG_NORMAL);
 			dict.setId(UUID.randomUUID().toString().replace("-", ""));
+			dict.setUpdateDate(new Date());
+			dict.setCreateDate(new Date());
+			dict.setUpdateBy(new User("1"));
+			dict.setCreateBy(new User("1"));
 			dictService.insert(dict);
 		}else{
+			dict.setUpdateDate(new Date());
+			dict.setUpdateBy(new User("1"));
 			dictService.update(dict);
 		}
+		return "redirect:" + adminPath + "/sys/dict/list?repage";
+	}
+
+	@RequestMapping(value = "delete")
+	public String delete(Dict dict, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+		dictService.delete(dict);
 		return "redirect:" + adminPath + "/sys/dict/list?repage";
 	}
 	

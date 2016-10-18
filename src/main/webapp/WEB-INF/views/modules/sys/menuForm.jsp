@@ -73,7 +73,21 @@
 		});
 	});
 
-	//重新加载
+    //定制列选择input信息
+    function retainRadioInput(radio){
+        var radioName = $(radio).attr("name");
+        $("input[name="+radioName+"]").each(function(){
+            if(this == radio){
+                //alert('aaa');
+                $(this).attr("checked",true);
+            }else{
+                $(this).attr("checked",false);
+            }
+        });
+    }
+
+
+    //重新加载
 /* 	function re(){
 		var treeObj = $.fn.zTree.getZTreeObj("tree");
 		treeObj.reAsyncChildNodes(null, "refresh");
@@ -142,7 +156,7 @@
 								<c:forEach items="${fns:getDictList('show_hide')}" var="dict">
 									<div class="radio">
 										<label>
-											<input name="form-field-radio" type="radio" class="ace" name="isShow" value="${dict.value }" ${menu.isShow eq dict.value?"checked='checked'":""}>
+											<input onclick="retainRadioInput(this)" type="radio" class="ace" name="isShow" value="${dict.value }" ${menu.isShow eq dict.value?"checked='checked'":""}>
 											<span class="lbl"> ${dict.label }</span>
 										</label>
 									</div>

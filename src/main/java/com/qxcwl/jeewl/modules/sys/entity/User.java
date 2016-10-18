@@ -37,7 +37,7 @@ public class User extends DataEntity<User> {
 	 * 性别
 	 */
 	private String sex;
-	
+
 	/**
 	 * 性别
 	 * @ClassName SEX
@@ -122,7 +122,14 @@ public class User extends DataEntity<User> {
 	 */
 	private String regisPlace;
 
-	/** 
+	public User() {
+	}
+
+	public User(String id) {
+		super(id);
+	}
+
+	/**
 	 * 获取系统昵称 
 	 * @return nickname 系统昵称 
 	 */

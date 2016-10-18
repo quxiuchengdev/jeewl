@@ -56,9 +56,10 @@
 		</script>
 	</head>
 
-	<body class="no-skin">
-		<!-- 选择的菜单 -->
-		<input type="hidden" id="selectedHref" value="<sitemesh:write property='meta.menu' />">
+    <body class="no-skin">
+        <input type="text" value="<sitemesh:write property='meta.menu' />">
+        <!-- 选择的菜单 -->
+        <input type="hidden" id="selectedHref" value="<sitemesh:write property='meta.menu' />">
 		<!-- #section:basics/navbar.layout -->
 		<div id="navbar" class="navbar navbar-default">
 			<script type="text/javascript">
@@ -501,7 +502,7 @@
 																	<ul class="submenu" style="${index.count eq 1 && index2.count eq 1 && index3.count eq 1 ?'display: block;':''}">
 																		<!-- 遍历四级子菜单开始 -->
 																		<c:forEach items="${menu3.childList}" var="menu4" varStatus="index4">
-																			<li class="${index.count eq 1 && index2.count eq 1 && index3.count eq 1index4.count eq 1 ?'active':''} ${index.count eq 1 && index2.count eq 1 && index3.count eq 1index4.count eq 1 && not empty menu4.childList ?'open':''}">
+																			<li class="${index.count eq 1 && index2.count eq 1 && index3.count eq 1 && index4.count eq 1 ?'active':''} ${index.count eq 1 && index2.count eq 1 && index3.count eq 1 && index4.count eq 1 && not empty menu4.childList ?'open':''}">
 																				<a href="${not empty menu4.childList ? 'javascript:;':(fn:indexOf(menu4.href, '://') eq -1 ? ctx : '')}${menu4.href}"
 																				   class="${not empty menu4.childList ? 'dropdown-toggle':''} ${empty menu4.childList?'enda':''}"
 																				   id="${menu4.id }" >

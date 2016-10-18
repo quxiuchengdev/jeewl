@@ -153,7 +153,39 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		this.history = history;
 	}
 
-	/** 
+	/**
+	 * 获取 创建者
+	 * @return createBy 创建者
+	 */
+	public User getCreateBy() {
+		return createBy;
+	}
+
+	/**
+	 * 设置 创建者
+	 * @param createBy 创建者
+	 */
+	public void setCreateBy(User createBy) {
+		this.createBy = createBy;
+	}
+
+	/**
+	 * 获取 更新用户
+	 * @return updateBy 更新用户
+	 */
+	public User getUpdateBy() {
+		return updateBy;
+	}
+
+	/**
+	 * 设置 更新用户
+	 * @param updateBy 更新用户
+	 */
+	public void setUpdateBy(User updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	/**
 	 * 获取全局搜索字段 
 	 * @return globalSearch 全局搜索字段 
 	 */
