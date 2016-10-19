@@ -1,10 +1,14 @@
 package com.qxcwl.jeewl.modules.sys.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Lists;
+import com.qxcwl.jeewl.modules.sys.entity.Role;
+import com.qxcwl.jeewl.modules.sys.service.RoleService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -30,7 +34,10 @@ public class UserController extends BaseController{
 
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private RoleService roleService;
+
 	@ModelAttribute("user")
 	public User get(@RequestParam(required=false) String id) {
 		if (StringUtils.isNotBlank(id)){
@@ -39,7 +46,7 @@ public class UserController extends BaseController{
 			return new User();
 		}
 	}
-	
+
 	@RequestMapping(value = {"list",""})
 	public String list(User user ,HttpServletRequest request, HttpServletResponse response,Model model){
 		//PageList<User> list= userService.findPage(new Paginator(request,true), new User());
@@ -52,11 +59,24 @@ public class UserController extends BaseController{
 	@RequestMapping(value = "form")
 	public String form(User user,HttpServletRequest request, HttpServletResponse response,Model model){
 		model.addAttribute("user", user);
+		model.addAttribute("roleList", roleService.findList(new Role()));
 		return "modules/sys/userForm";
 	}
 	
 	@RequestMapping(value = "save")
-	public String save(User user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+	public String save(User user, String roleIds,HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+		String roleListIds = request.getParameter("roleIds");
+		System.out.println(roleListIds);
+		System.out.println(roleIds);
+		if(StringUtils.isNotEmpty(roleIds)){
+			String[] roleIdArr = roleIds.split(",");
+			List<Role> roleList = Lists.newArrayList();
+			for (String roleId : roleIdArr) {
+				Role role = roleService.get(roleId);
+				roleList.add(role);
+			}
+			user.setRoleList(roleList);
+		}
 		user.setDelFlag(DataEntity.DEL_FLAG_NORMAL);
 		user.setStatus(User.STATUS.NORMAL.toString());
 		if(StringUtils.isEmpty(user.getId())){

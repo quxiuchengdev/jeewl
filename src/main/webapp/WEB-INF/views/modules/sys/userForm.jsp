@@ -14,9 +14,10 @@
 	<body>
 		<script type="text/javascript">
 		$(document).ready(function() {
-			$('.date-picker').datepicker({
+			$('#regisTime').datepicker({
 				autoclose: true,
-				todayHighlight: true
+				todayHighlight: true,
+                dateFormat: "yy-mm-dd"
 			});
 		});
 		
@@ -127,8 +128,24 @@
 							<div class="col-xs-12 col-sm-5">
 								<span class="block input-icon input-icon-right">
 								<!-- 	<input type="text" class="width-100"> -->
-									<form:input path="regisTime" class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" />
+                                    <input class="form-control date-picker" id="regisTime" type="text" data-format="yyyy-MM-dd HH:mm:ss" name="regisTime" value="<fmt:formatDate value="${user.regisTime}" pattern="yyyy-MM-dd"/>"/>
+									<%--<form:input path="regisTime" class="form-control date-picker" id="id-date-picker-1" type="text" data-format="yyyy-mm-dd" />--%>
 									<i class="ace-icon fa fa-calendar"></i>
+								</span>
+							</div>
+							<div class="help-block col-xs-12 col-sm-reset inline"></div>
+						</div>
+
+						<div class="form-group ">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right">用户角色:</label>
+							<div class="col-xs-12 col-sm-5">
+								<span class="block input-icon input-icon-right">
+
+                                        <c:forEach items="${roleList}" var="role">
+                                            <label class="position-relative">
+                                                <input type="checkbox" class="ace" name="roleIds" value="${role.id}" ${fn:contains(user.roleListIdsStr,role.id)?'checked=checked':''}><span class="lbl">${fn:contains(user.roleListIdsStr,role.id)}${role.name}</span>
+                                            </label>
+                                        </c:forEach>
 								</span>
 							</div>
 							<div class="help-block col-xs-12 col-sm-reset inline"></div>

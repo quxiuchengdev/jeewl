@@ -158,7 +158,7 @@ public class RoleController extends BaseController{
 		if (role != null) {
 			for (Menu menu : role.getMenuList()) {
 				JSONObject jo = new JSONObject();
-				menu = menuService.get(menu.getId());
+				//menu = menuService.get(menu.getId());
 				jo.put("id", menu.getId());
 				jo.put("pId", menu.getParent().getId());
 				jo.put("name", menu.getName());

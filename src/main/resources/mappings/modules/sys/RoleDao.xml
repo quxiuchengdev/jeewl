@@ -17,6 +17,8 @@
         <result property="delFlag" column="delFlag"></result>
         <collection property="menuList" ofType="Menu">
             <id property="id" column="menuList.id"></id>
+            <result property="parent.id" column="menuList.parent.id"></result>
+            <result property="name" column="menuList.name"></result>
         </collection>
     </resultMap>
     <sql id="roleColumns">
@@ -32,7 +34,9 @@
         a.remarks,
         a.history,
         a.del_flag as "delFlag",
-        srm.menu_id as "menuList.id"
+        menu.id as "menuList.id",
+        menu.parent_id AS "menuList.parent.id",
+        menu.name AS "menuList.name"
     </sql>
 
     <sql id="roleJoins">

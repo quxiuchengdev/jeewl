@@ -1,8 +1,11 @@
 package com.qxcwl.jeewl.modules.sys.entity;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import com.qxcwl.jeewl.common.persistence.DataEntity;
+import com.qxcwl.jeewl.common.utils.Collections3;
 
 public class User extends DataEntity<User> {
 
@@ -115,12 +118,14 @@ public class User extends DataEntity<User> {
 	/**
 	 * 注册时间
 	 */
-	private String regisTime;	
+	private Date regisTime;
 	
 	/**
 	 * 注册地点
 	 */
 	private String regisPlace;
+
+	private List<Role> roleList;
 
 	public User() {
 	}
@@ -137,7 +142,7 @@ public class User extends DataEntity<User> {
 		return nickname;
 	}
 
-	/** 
+	/**
 	 * 设置系统昵称 
 	 * @param nickname 系统昵称 
 	 */
@@ -309,7 +314,7 @@ public class User extends DataEntity<User> {
 	 * 获取注册时间 
 	 * @return regisTime 注册时间 
 	 */
-	public String getRegisTime() {
+	public Date getRegisTime() {
 		return regisTime;
 	}
 
@@ -317,7 +322,7 @@ public class User extends DataEntity<User> {
 	 * 设置注册时间 
 	 * @param regisTime 注册时间 
 	 */
-	public void setRegisTime(String regisTime) {
+	public void setRegisTime(Date regisTime) {
 		this.regisTime = regisTime;
 	}
 
@@ -368,5 +373,33 @@ public class User extends DataEntity<User> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
+
+	/**
+	 * 获取 角色集合
+	 * @return roleList 角色集合
+	 */
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	/**
+	 * 设置 角色集合
+	 * @param roleList 角色集合
+	 */
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+
+	/**
+	 * 获取角色ID集合,用逗号,分隔
+	 * @return
+	 */
+	public String getRoleListIdsStr(){
+		if(null != roleList){
+			return Collections3.extractToString(roleList, "id", ",");
+		}else{
+			return "";
+		}
+
+	}
 }

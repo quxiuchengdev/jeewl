@@ -11,5 +11,17 @@ import com.qxcwl.jeewl.modules.sys.entity.User;
 @Transactional
 public class UserService extends CrudService<UserDao, User>{
 
-	
+	@Override
+	public int insert(User user) {
+		dao.deleteUserRole(user);
+		dao.insertUserRole(user);
+		return super.insert(user);
+	}
+
+	@Override
+	public int update(User user) {
+		dao.deleteUserRole(user);
+		dao.insertUserRole(user);
+		return super.update(user);
+	}
 }

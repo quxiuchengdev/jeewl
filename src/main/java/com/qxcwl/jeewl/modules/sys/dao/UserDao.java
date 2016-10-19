@@ -13,5 +13,19 @@ import com.qxcwl.jeewl.modules.sys.entity.User;
  */
 @MyBatisDao
 public interface UserDao extends CrudDao<User> {
+
+	/**
+	 * 插入中间表,批量插入
+	 * @param user
+	 * @return
+	 */
+	public int insertUserRole(User user);
+
+	/**
+	 * 删除中间表,批量删除
+	 * @param user
+	 * @return
+	 */
+	public int deleteUserRole(User user);
 	
 }
